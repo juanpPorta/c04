@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 05:38:29 by jporta            #+#    #+#             */
-/*   Updated: 2021/07/07 18:44:51 by jporta           ###   ########.fr       */
+/*   Updated: 2021/07/08 15:22:21 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,29 +54,27 @@ int	ft_lentbase(char *base)
 
 void	ft_putnbr_base(int nbr, char *base)
 {
-	int	unsigned_nbr;
-	int	lenbase;
+	unsigned int	lenbase;
+	unsigned int	nbr_unsigned;
 
 	if (check_error(base))
 	{
-		if (nbr < 0 && nbr != '\0')
+		if (nbr < 0)
 		{
 			write(1, "-", 1);
-			unsigned_nbr = (unsigned int)(nbr * -1);
+			nbr_unsigned = (unsigned int)(-1 * nbr);
+		}
+		else
+			nbr_unsigned = (unsigned int)nbr;
+		lenbase = ft_lentbase(base);
+		if (nbr_unsigned >= lenbase)
+		{
+			ft_putnbr_base(nbr_unsigned / lenbase, base);
+			ft_putnbr_base(nbr_unsigned % lenbase, base);
 		}
 		else
 		{
-			unsigned_nbr = (unsigned int)(nbr);
-			lenbase = ft_lentbase(base);
-			if (unsigned_nbr >= lenbase)
-			{
-				ft_putnbr_base(unsigned_nbr / lenbase, base);
-				ft_putnbr_base(unsigned_nbr % lenbase, base);
-			}
-			else
-			{
-				write(1, base + unsigned_nbr, 1);
-			}
+			write(1, base + nbr_unsigned, 1);
 		}
 	}
 }
